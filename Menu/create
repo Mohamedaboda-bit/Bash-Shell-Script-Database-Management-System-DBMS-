@@ -1,0 +1,23 @@
+#!/usr/bin/bash		
+
+echo  -e "please enter the of name Datebase and sure make that the name : \n 1).starts with a char \n 2).dose not contain any with spaces or spical special character\n"
+read -p "MAIN MENU/CREATE > " name
+			if [[ $name =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]]
+			then
+				found=$(find ../DBMS -name $name)
+					if [[ -n $found ]]
+					then 
+						echo 'MAIN MENU/CREATE > this database alreay exists'
+						./mainMenu
+					else
+						mkdir ../DBMS/$name
+						if [[ $? = 0 ]]
+						then
+						echo "MAIN MENU/CREATE > database created successfully"
+						./mainMenu
+						fi	
+					fi 
+
+			else
+				echo "the name you enterned dosen't match the pattern"	
+			fi	

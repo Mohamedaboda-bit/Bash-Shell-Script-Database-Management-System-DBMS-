@@ -1,0 +1,19 @@
+#!/usr/bin/bash		
+
+if [ -e DBMS ]
+then
+	echo "DATABASE MANGEMENT SYSTEM IS UP"
+	clear
+	./Menu/mainMenu
+else
+	mkdir DBMS
+	if [ $? -eq 0 ]
+	then
+			echo "DATABASE MANGEMENT SYSTEM IS UP "
+	else
+			echo "FAILED TO CREATE DATABASE FOLDER PLEASE CHECK THE PRMINTIONS OF THE CURR DIR "
+	fi
+fi
+
+
+
