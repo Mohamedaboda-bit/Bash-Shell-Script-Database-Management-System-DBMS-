@@ -1,27 +1,39 @@
 #!/usr/bin/bash		
+# source <File Path>
 PS3="MAIN MENU > "
-
-select option in 'create a database' 'select a database' 'list all databases' 'drop a database' 'exit'
+while true
 do
-	case $option in
-		"create a database")
-			PS3="CREATE"
-			./Menu/create
-			;;
-		"select a database")	
-			echo 'select a database'
-			;;
-		"list all databases")	
-				DBS=$(ls DBMS)
-				echo $DBS
-			;;
-		"drop a database")	
-			echo 'drop a database'
-			;;	
-		"exit")	
-			echo 'good bye'
-			break
-			;;
-	esac
+	select option in 'create a database' 'use a database' 'list all databases' 'drop a database' 'exit'
+	do
+		case $option in
+			"create a database")
+				./create
+				break
+				;;
+			"use a database")	
+				./use
+				break
+				;;
+			"list all databases")	
+					DBS=$(ls ../DBMS)
+					echo $DBS
+					break
+				;;
+			"drop a database")	
+				echo 'drop a database'
+				break
+				;;	
+			"exit")	
+				echo 'good bye'
+				break 2
+				;;
+			*)	
+				echo "invalid input "
+				break
+				;;	
+		esac
+	done
 done
+cd ../
+
 

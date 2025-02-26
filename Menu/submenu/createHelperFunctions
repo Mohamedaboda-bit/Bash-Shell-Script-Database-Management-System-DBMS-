@@ -1,0 +1,22 @@
+#!/usr/bin/bash		
+# source <File Path>
+selectDataTypeMenu(){   
+               select option in Integer String exist
+                do
+                    case $option in
+                        "Integer")
+                           echo "$1"':Integer:PK;' >> ../../DBMS/"$name"/"$tname"/metadate.txt
+                            break
+                           ;;
+                       "String")
+                           echo "$1"':String:PK;' >> ../../DBMS/"$name"/"$tname"/metadate.txt
+                            break
+                           ;;
+                        "exist")
+                            break
+                            ;;
+                        *)
+                            echo "invalid output"
+                    esac
+                done
+}

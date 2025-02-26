@@ -1,0 +1,52 @@
+#!/usr/bin/bash		
+# source <File Path>
+PS3="MAIN MENU/USE/$name> "
+
+while true
+do
+	select option in 'create table' 'list tables' 'drop table' 'insert' 'delete' 'select' 'update' 'back to the main menu'
+	do
+		case $option in
+			"create table")
+                source ./create
+				break
+				;;
+			"list tables")	
+                echo "mohamed will implemnt this"
+				break
+				;;
+			"drop table")	
+				echo "mohamed will implemnt this"
+				break
+				;;
+			"insert")	
+                pwd
+                ./insert
+				break
+				;;	
+            "delete")	
+				echo "nada will implemnt this"
+				break
+				;;	
+            "update")	
+				echo "nada will implemnt this"
+				break
+				;;	
+            "select")	
+				echo "nada will implemnt this"
+				break
+				;;	
+			"back to the main menu")	
+				echo 'going back to the main menu'
+				break 2
+				;;
+			*)	
+				echo "invalid input "
+				break
+				;;	
+		esac
+	done
+done
+cd ../
+
+

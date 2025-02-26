@@ -1,0 +1,43 @@
+#!/usr/bin/bash		
+# source <File Path>
+source ./createHelperFunctions
+
+echo -e "please enter the of name Table and sure make that the name : \n 1).starts with a char \n 2).dose not contain any with spaces or spical special character\n"
+read -p "table name :" tname
+
+if [[ $tname =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]];then
+        tables=$(ls ../../DBMS/$name)
+        if [[ ! $tables =~ $tname ]];then
+            while true
+            do
+                read -p "number of colums :" columnsNumber
+                if [[ $columnsNumber =~ ^[1-9][0-9]*$ ]];then
+                    mkdir ../../DBMS/$name/$tname
+                    touch ../../DBMS/$name/$tname/metadate.txt
+                    echo 'IMPORTANT : the first column you enter be will considered the primary key automaticlly'
+                    read -p "enter the first column name : " FirstColumn
+                    echo "selcet the datatype"
+                    selectDataTypeMenu $FirstColumn
+    
+                    for((i = 2 ;i <= $columnsNumber; i++)); do
+                        read -p "enter the name of column column number $i : " column
+                            echo "selcet the datatype of column number $i"
+                            selectDataTypeMenu $column
+                    done
+                    echo "table $tname created successfully "
+                    break
+                elif [[ $columnsNumber = "ESC" ]];then
+                    break
+                else
+                    echo "this is not a number try again or tpye ESC to go back to the sub menu"
+                fi
+            done
+        else
+            echo "$tname table already exists"
+        fi
+    else    
+        echo "the name you enterned dosen't match the pattern try agian : "
+        source ./create
+fi
+
+

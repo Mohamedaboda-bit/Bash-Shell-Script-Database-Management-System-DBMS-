@@ -1,0 +1,21 @@
+#!/usr/bin/bash		
+
+echo -e "MAIN MENU/USE > what is the database name you want to use ?" 
+read -p "MAIN MENU/USE > " name
+if [[ $name =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]]
+			then
+				found=$(find ../DBMS -name $name)
+					if [[ -n $found ]]
+					then 
+                    echo "you are now using the database name $name"
+                    cd submenu
+                    source ./submenu                        
+					else
+						echo "MAIN MENU/USE > this database dosen't exist...going back to the main menu"
+					fi 
+
+			else
+				echo "the name you enterned dosen't match the pattern try agian : "
+				source ./use
+fi	
+                
