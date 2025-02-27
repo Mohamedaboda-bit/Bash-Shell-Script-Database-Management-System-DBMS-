@@ -4,7 +4,7 @@ source ./createHelperFunctions
 
 echo -e "please enter the of name Table and sure make that the name : \n 1).starts with a char \n 2).dose not contain any with spaces or spical special character\n"
 read -p "table name :" tname
-
+$firstline;
 if [[ $tname =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]];then
         tables=$(ls ../../DBMS/$name)
         if [[ ! $tables =~ $tname ]];then
@@ -12,19 +12,30 @@ if [[ $tname =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]];then
             do
                 read -p "number of colums :" columnsNumber
                 if [[ $columnsNumber =~ ^[1-9][0-9]*$ ]];then
-                    mkdir ../../DBMS/$name/$tname
-                    touch ../../DBMS/$name/$tname/metadate.txt
-                    echo 'IMPORTANT : the first column you enter be will considered the primary key automaticlly'
-                    read -p "enter the first column name : " FirstColumn
-                    echo "selcet the datatype"
-                    selectDataTypeMenu $FirstColumn
-    
-                    for((i = 2 ;i <= $columnsNumber; i++)); do
-                        read -p "enter the name of column column number $i : " column
-                            echo "selcet the datatype of column number $i"
-                            selectDataTypeMenu $column
-                    done
+                    touch ../../DBMS/$name/$tname.txt
+                    echo  -e 'IMPORTANT :\n1). the first column you enter be will considered the primary key automaticlly \n2). the default datatype is string in case you existed '
+                    
+                    for((i = 1 ;i <= $columnsNumber; i++));
+                        do
+                            read -p "enter the name of column column number $i : " column
+                                if [[ $i = $columnsNumber ]];then
+                                    firstline+="$column"
+                                else
+                                    firstline+="$column:"
+                                fi
+                            echo "selcet the datatype of column number $column"
+                                if [[ $i = $columnsNumber ]];then
+                                     selectDataTypeMenu ""
+                                else
+                                     selectDataTypeMenu ":"
+                                fi
+                        done
+                    echo "$firstline" >> ../../DBMS/$name/$tname.txt
+                    echo "$secandline" >> ../../DBMS/$name/$tname.txt
+                    echo "PK" >> ../../DBMS/$name/$tname.txt
                     echo "table $tname created successfully "
+                    unset firstline
+                    unset secandline
                     break
                 elif [[ $columnsNumber = "ESC" ]];then
                     break

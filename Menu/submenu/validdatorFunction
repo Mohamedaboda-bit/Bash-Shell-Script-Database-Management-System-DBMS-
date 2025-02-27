@@ -1,0 +1,26 @@
+#!/usr/bin/bash		
+# source <File Path>
+
+validate(){
+   while true
+    do
+    read -p "$1" firstcol
+    if [[ ${colTypes[1]} =  "String" ]];then
+      if [[ $firstcol =~ ^[a-zA-Z][a-zA-Z0-9]*$  ]];then 
+        data+="$firstcol:"
+        break
+      else
+      echo "Wrong datatype enter a String please"
+      unset firstcol
+      fi
+    elif [[ ${colTypes[1]} =  "Integer" ]];then
+      if [[ $firstcol =~ ^[1-9][0-9]*$ ]];then
+           data+="$firstcol:"
+           break
+      else
+        echo "Wrong datatype enter an Integer please"
+        unset firstcol
+      fi
+    fi
+    done
+}

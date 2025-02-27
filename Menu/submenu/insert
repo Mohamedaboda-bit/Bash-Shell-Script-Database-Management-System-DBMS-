@@ -1,2 +1,59 @@
-#!/usr/bin/bash		
+#!/usr/bin/bash	
+# source <File Path>
+source ./validdatorFunction
+
+read -p "select table : " Table
+if [ -f "../../DBMS/"$name"/"$Table".txt" ];then
+colNum=$(awk -F':' 'NR==1{print NF}' ../../DBMS/"$name"/"$Table".txt)
+
+  declare -a colNames=()
+  for((i=1; i<=$colNum; i++))
+  do
+    colNames[$i]=$(awk -F':' -v col="$i" 'NR==1{print $col}' ../../DBMS/"$name"/"$Table".txt)
+  done
+
+    declare -a colTypes=()
+  for((i=1; i<=$colNum; i++))
+  do
+    colTypes[$i]=$(awk -F':' -v col="$i" 'NR==2{print $col}' ../../DBMS/"$name"/"$Table".txt)
+  done
+  $data
+    validate "Enter the value the Primary key column (${colNames[1]})"
+    echo "After you entered the value of the primkry key, do you want keep inserting ? "
+  for((i=2; i<=$colNum; i++))
+  do
+    $answer
+    select option in yes no
+    do
+      case $option in 
+      "yes")
+          answer="yes"
+          break
+        ;;
+      "no")
+          answer="no"
+          break
+        ;;
+      *)
+        echo "invalid answer"
+      esac
+    done
+    if [[ $answer = "yes" ]];then
+      validate "Enter the value of column (${colNames[$i]})"
+      unset answer
+    elif [[  $answer = "no"  ]];then
+      echo "going back to the main menu"
+      unset answer
+      break
+    fi
+  done
+  echo "$data" >> ../../DBMS/$name/$tname/$Table.txt
+  unset data
+  echo "insert was successful"
+else
+    echo "this table dose't exist create table first"
+fi
+
+
+
 

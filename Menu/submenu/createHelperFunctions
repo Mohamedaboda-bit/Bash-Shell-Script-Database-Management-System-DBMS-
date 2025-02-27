@@ -1,18 +1,21 @@
 #!/usr/bin/bash		
 # source <File Path>
+$secandline;
 selectDataTypeMenu(){   
                select option in Integer String exist
                 do
                     case $option in
                         "Integer")
-                           echo "$1"':Integer:PK;' >> ../../DBMS/"$name"/"$tname"/metadate.txt
+                        secandline+="String$1"
                             break
                            ;;
                        "String")
-                           echo "$1"':String:PK;' >> ../../DBMS/"$name"/"$tname"/metadate.txt
+                        secandline+="Integer$1"
                             break
                            ;;
                         "exist")
+                            secandline+="String$1"
+                            echo "setting value to be String..."
                             break
                             ;;
                         *)
