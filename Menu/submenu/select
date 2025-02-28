@@ -12,7 +12,7 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 	"Select_All")
 		echo ###################################################
 		sed -n '1p' $tablePath | column -t -s":"
-		sed -n '4,$p' $table | column -t -s":"
+		sed -n '4,$p' $tablePath | column -t -s":"
 		echo ###################################################
 		;;
 	"Selection")
