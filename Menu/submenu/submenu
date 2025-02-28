@@ -24,7 +24,7 @@ do
 				break
 				;;	
             "delete")	
-				echo "nada will implemnt this"
+				source ./delete
 				break
 				;;	
             "update")	
