@@ -28,7 +28,7 @@ do
 				break
 				;;	
             "update")	
-				echo "nada will implemnt this"
+				source ./update
 				break
 				;;	
             "select")	
