@@ -1,0 +1,62 @@
+#!/usr/bin/bash
+
+clear
+ls -1 ../../DBMS/"$name"/
+echo ###################################################
+read -p "Enter table name: " table
+if [[ -f "../../DBMS/"$name"/"$table"" ]] then
+	tablePath="../../DBMS/"$name"/"$table""	
+	select choice in Select_All Selection Projection Exit
+	do
+	case $choice in
+	"Select_All")
+		echo ###################################################
+		sed -n '1p' $tablePath | column -t -s":"
+		sed -n '4,$p' $table | column -t -s":"
+		echo ###################################################
+		;;
+	"Selection")
+		echo ###################################################
+		sed -n '1p' $tablePath | column -t -s":"
+		read -p "Enter field number: " field
+		if  [[ ! "$field" =~ ^[1-9][0-9]*$ ]] then
+			echo Please enter a number
+		fi
+		check=$(awk -F: -v field="$field"  'NR==1 {if (field<=NF && field>0) print "True"} ' "$tablePath")
+		if [[ $check == "True" ]] then
+			read -p "Enter a value: " value
+			echo ###################################################			
+			awk -F: -v field="$field" -v value="$value" 'NR==1 || (NR>=4 && $field == value) {print}' "$tablePath" | column -t -s":"
+			echo ###################################################
+		else
+			echo Field does not exist
+		fi
+		;;
+	"Projection")
+		echo ###################################################
+		sed -n '1p' $tablePath | column -t -s":"
+		read -p "Enter field number: " field
+		if  [[ ! "$field" =~ ^[1-9][0-9]*$ ]] then
+			echo Please enter a number
+		fi
+		check=$(awk -F: -v field="$field"  'NR==1 {if (field<=NF && field>0) print "True"} ' "$tablePath")
+		if [[ $check == "True" ]] then
+			echo ###################################################	
+			awk -F: -v field="$field" 'NR==1 || NR>=4 { print $field }' "$tablePath" | column -t -s":"
+			echo ###################################################
+		else
+			echo Field does not exist
+		fi
+		;;
+	"Exit")
+		break
+		;;	
+	*)
+		echo WRONG ENTERY 
+	esac
+	done
+	clear
+	source ./submenu
+else
+	echo Table does not exist
+fi
