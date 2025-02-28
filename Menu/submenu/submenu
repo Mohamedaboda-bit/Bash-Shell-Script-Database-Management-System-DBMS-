@@ -32,7 +32,7 @@ do
 				break
 				;;	
             "select")	
-				echo "nada will implemnt this"
+				source ./select
 				break
 				;;	
 			"back to the main menu")	
