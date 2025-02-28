@@ -1,0 +1,71 @@
+#!/usr/bin/bash
+
+clear
+ls -1 ../../DBMS/"$name"/
+echo ###################################################
+read -p "Enter table name: " table
+if [[ -f "../../DBMS/"$name"/"$table"" ]] then
+	tablePath="../../DBMS/"$name"/"$table""	
+	select choice in Delete_All Detele_Where Exit
+	do
+	case $choice in
+	"Delete_All")
+		echo ###################################################
+		echo Are you sure you want to delete all data
+		select option in yes no
+		do
+		case $option in 
+		"yes")
+			sed -i '4,$d' $tablePath 
+			echo Data deleted successfully
+			break
+			;;
+		"no")
+			break
+			;;
+     		 *)
+ 		       echo "invalid answer"
+ 		       ;;
+		esac
+		done		
+		echo ###################################################
+		;;
+		
+		
+	"Detele_Where")
+		echo ###################################################
+		sed -n '1p' $tablePath | column -t -s":"
+		read -p "Enter field number: " field
+		if  [[ ! "$field" =~ ^[1-9][0-9]*$  ]] then
+			echo Please enter a number
+		fi	
+		check=$(awk -F: -v field="$field"  'NR==1 {if (field<=NF && field>0) print "True"} ' "$tablePath")
+		if [[ $check == "True" ]] then
+			read -p "Enter a value: " value
+			echo ###################################################
+			before=$(wc -l < "$tablePath")			
+			awk -F: -v field="$field" -v value="$value" 'NR>=4 && $field == value { print NR "d"}' "$tablePath" | sed -i -f - "$tablePath"
+			after=$(wc -l < "$tablePath")
+			if [[ $before -gt $after ]] then
+				echo Data deleted successfully
+			else
+				echo Data not found
+			fi	
+			echo ###################################################
+		else
+			echo Field does not exist
+		fi
+		;;
+	"Exit")
+		break
+		;;	
+	*)
+		echo WRONG ENTERY
+	esac
+	done
+	clear
+	source ./submenu
+else
+	echo Table does not exist
+fi
+}
