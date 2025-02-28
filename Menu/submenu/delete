@@ -43,14 +43,29 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 		if [[ $check == "True" ]] then
 			read -p "Enter a value: " value
 			echo ###################################################
-			before=$(wc -l < "$tablePath")			
-			awk -F: -v field="$field" -v value="$value" 'NR>=4 && $field == value { print NR "d"}' "$tablePath" | sed -i -f - "$tablePath"
-			after=$(wc -l < "$tablePath")
-			if [[ $before -gt $after ]] then
-				echo Data deleted successfully
-			else
-				echo Data not found
-			fi	
+			echo Are you sure you want to delete 
+			select option in yes no
+			do
+			case $option in 
+			"yes")
+				before=$(wc -l < "$tablePath")			
+				awk -F: -v field="$field" -v value="$value" 'NR>=4 && $field == value { print NR "d"}' "$tablePath" | sed -i -f - "$tablePath"
+				after=$(wc -l < "$tablePath")
+				if [[ $before -gt $after ]] then
+					echo Data deleted successfully
+				else
+					echo Data not found
+				fi	
+				break
+				;;
+			"no")
+				break
+				;;
+     			 *)
+ 			       echo "invalid answer"
+ 			       ;;
+			esac
+			done				
 			echo ###################################################
 		else
 			echo Field does not exist
