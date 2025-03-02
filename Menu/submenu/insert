@@ -37,7 +37,7 @@ colNum=$(awk -F':' 'NR==1{print NF}' ../../DBMS/"$name"/"$Table".txt)
       *)
         echo "invalid answer"
       esac
-    done
+    done 
     if [[ $answer = "yes" ]];then
       validate "Enter the value of column (${colNames[$i]})" $i
       unset answer
