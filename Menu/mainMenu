@@ -15,12 +15,14 @@ do
 				break
 				;;
 			"list all databases")	
-					DBS=$(ls ../DBMS)
-					echo $DBS
+					echo 'Databases :'
+					echo '--------------'
+					ls ../DBMS
+					echo '--------------'
 					break
 				;;
 			"drop a database")	
-				echo 'drop a database'
+				source ./drop
 				break
 				;;	
 			"exit")	

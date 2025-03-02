@@ -1,9 +1,13 @@
 #!/usr/bin/bash	
 # source <File Path>
+echo -e "\n"
+echo "Enter the name of the table you want to drop :"
+ls -1 ../../DBMS/"$name"/
+echo -e "\n"
 
 read -p "enter the table name : " table
-	if [[ -f "../../DBMS/$name/$table.txt" ]];then
-			rm -r  "../../DBMS/$name/$table.txt"
+	if [[ -f "../../DBMS/$name/$table" ]];then
+			rm -r  "../../DBMS/$name/$table"
             if [ $? -eq 0 ];then
             echo "$table table droped successfully"
             fi

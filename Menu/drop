@@ -1,0 +1,18 @@
+#!/usr/bin/bash	
+# source <File Path>
+
+echo -e "\n"
+echo "Enter the name of the Database you want to drop :"
+ls -1 ../DBMS
+echo -e "\n"
+
+read -p "enter the Database name : " DB
+	if [[ -d "../DBMS/$DB" ]];then
+			rm -r  "../DBMS/$DB"
+            if [ $? -eq 0 ];then
+            echo "$DB Database droped successfully...going back to the main menu"
+            echo -e "\n"
+            fi
+	else
+			echo " This Database dosen't exist"
+    fi

@@ -1,7 +1,8 @@
 #!/usr/bin/bash
+# source <File Path>
+
 echo -e "\n"
 echo "Enter the name of the table you want to delete from:"
-
 ls -1 ../../DBMS/"$name"/
 echo -e "\n"
 
@@ -52,7 +53,6 @@ select choice in Update Exit
 				echo Wrong entery going back to the update menu
 				break
 			else 
-			echo -e "\n"
 			echo Are you sure you want to update 
 			select option in yes no
 			do
@@ -89,7 +89,6 @@ select choice in Update Exit
 	done
 done
 	
-	source ./submenu	
 	else
 		echo Table does not exist
 	fi	

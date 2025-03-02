@@ -12,7 +12,10 @@ do
 				break
 				;;
 			"list tables")	
-                echo "mohamed will implemnt this"
+				echo 'Tables :'
+				echo '--------------'
+				ls ../../DBMS/$name
+				echo '--------------'
 				break
 				;;
 			"drop table")	

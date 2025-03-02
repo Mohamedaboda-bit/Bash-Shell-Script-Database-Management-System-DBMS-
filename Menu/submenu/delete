@@ -1,4 +1,5 @@
 #!/usr/bin/bash
+# source <File Path>
 
 echo "Enter the name of the table you want to delete from:"
 		echo -e "\n"
@@ -99,7 +100,6 @@ if [[ -f "../../DBMS/$name/$table" ]]; then
         done
     done    
     
-    source ./submenu
 else
     echo "Table does not exist ... going back to the previous menu"
 fi

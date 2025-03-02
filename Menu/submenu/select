@@ -1,4 +1,7 @@
 #!/usr/bin/bash
+# source <File Path>
+
+echo -e "\n"
 echo "Enter the name of the table you want to delete from:"
 ls -1 ../../DBMS/"$name"/
 echo -e "\n"
@@ -11,10 +14,10 @@ do
 	do
 	case $choice in
 	"Select_All")
-		echo -e "\n"
+		echo -e "------------------"
 		sed -n '1p' $tablePath | column -t -s":"
 		sed -n '4,$p' $tablePath | column -t -s":"
-		echo -e "\n"
+		echo -e "------------------"
 		break
 		;;
 	"Selection")
@@ -67,7 +70,6 @@ do
 	done
 done
 
-	source ./submenu
 else
 	echo Table does not exist
 fi
