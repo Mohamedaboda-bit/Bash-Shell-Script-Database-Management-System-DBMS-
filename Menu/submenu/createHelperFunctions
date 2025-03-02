@@ -6,11 +6,11 @@ selectDataTypeMenu(){
                 do
                     case $option in
                         "Integer")
-                        secandline+="String$1"
+                        secandline+="Integer$1"
                             break
                            ;;
                        "String")
-                        secandline+="Integer$1"
+                        secandline+="String$1"
                             break
                            ;;
                         "exist")
@@ -19,7 +19,7 @@ selectDataTypeMenu(){
                             break
                             ;;
                         *)
-                            echo "invalid output"
+                            echo "invalid input please select 1,2 or 3 from the list"
                     esac
                 done
 }

@@ -11,13 +11,18 @@ if [[ $tname =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]];then
             while true
             do
                 read -p "number of colums :" columnsNumber
+                echo "note : you can exist anytime buy typing ESC insted of the column numbers"
                 if [[ $columnsNumber =~ ^[1-9][0-9]*$ ]];then
                     touch ../../DBMS/$name/$tname.txt
-                    echo  -e 'IMPORTANT :\n1). the first column you enter be will considered the primary key automaticlly \n2). the default datatype is string in case you existed '
+                    echo  -e 'IMPORTANT :\n1). the first column you enter be will considered the primary key automaticlly \n2). the default datatype is string in case you existed  '
                     
                     for((i = 1 ;i <= $columnsNumber; i++));
                         do
                             read -p "enter the name of column column number $i : " column
+                            while [[ ! $column =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]]; do
+                                echo "column name can't start with a number or or contain special characters"
+                                read -p "enter the name of column column number $i again : " column
+                            done
                                 if [[ $i = $columnsNumber ]];then
                                     firstline+="$column"
                                 else

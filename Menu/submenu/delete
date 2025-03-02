@@ -1,11 +1,16 @@
 #!/usr/bin/bash
 
-clear
+
+echo Enter the name of the table you want to delete from :
+echo ###################################################
 ls -1 ../../DBMS/"$name"/
 echo ###################################################
 read -p "Enter table name: " table
-if [[ -f "../../DBMS/"$name"/"$table"" ]] then
+echo $table
+if [[ -f "../../DBMS/"$name"/"$table"" ]]; then
 	tablePath="../../DBMS/"$name"/"$table""	
+while true
+do
 	select choice in Delete_All Detele_Where Exit
 	do
 	case $choice in
@@ -17,15 +22,16 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 		case $option in 
 		"yes")
 			sed -i '4,$d' $tablePath 
-			echo Data deleted successfully
-			break
+			echo Data deleted successfully... going back to the delete menu
+			break 2
 			;;
 		"no")
-			break
+			echo going back to the delete menu
+			break 2
 			;;
-     		 *)
- 		       echo "invalid answer"
- 		       ;;
+     	*)
+ 		    echo "invalid answer enter 1 or 2"
+ 		    ;;
 		esac
 		done		
 		echo ###################################################
@@ -34,13 +40,13 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 		
 	"Detele_Where")
 		echo ###################################################
-		sed -n '1p' $tablePath | column -t -s":"
+		sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
 		read -p "Enter field number: " field
-		if  [[ ! "$field" =~ ^[1-9][0-9]*$  ]] then
+		if  [[ ! "$field" =~ ^[1-9][0-9]*$  ]]; then
 			echo Please enter a number
 		fi	
 		check=$(awk -F: -v field="$field"  'NR==1 {if (field<=NF && field>0) print "True"} ' "$tablePath")
-		if [[ $check == "True" ]] then
+		if [[ $check == "True" ]]; then
 			read -p "Enter a value: " value
 			echo ###################################################
 			echo Are you sure you want to delete 
@@ -51,7 +57,7 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 				before=$(wc -l < "$tablePath")			
 				awk -F: -v field="$field" -v value="$value" 'NR>=4 && $field == value { print NR "d"}' "$tablePath" | sed -i -f - "$tablePath"
 				after=$(wc -l < "$tablePath")
-				if [[ $before -gt $after ]] then
+				if [[ $before -gt $after ]]; then
 					echo Data deleted successfully
 				else
 					echo Data not found
@@ -61,9 +67,9 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 			"no")
 				break
 				;;
-     			 *)
- 			       echo "invalid answer"
- 			       ;;
+     		*)
+ 			    echo "invalid answer"
+ 			    ;;
 			esac
 			done				
 			echo ###################################################
@@ -72,15 +78,16 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 		fi
 		;;
 	"Exit")
-		break
+		break 2
 		;;	
 	*)
-		echo WRONG ENTERY
+		echo "WRONG ENTERY Enter 1,2 or 3"
 	esac
 	done
-	clear
+done	
+	# clear
 	source ./submenu
 else
-	echo Table does not exist
+	echo Table dose not exist ... going back to the pervious menu
 fi
-}
+

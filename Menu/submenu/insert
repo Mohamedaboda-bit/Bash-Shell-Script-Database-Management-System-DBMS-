@@ -18,7 +18,7 @@ colNum=$(awk -F':' 'NR==1{print NF}' ../../DBMS/"$name"/"$Table".txt)
     colTypes[$i]=$(awk -F':' -v col="$i" 'NR==2{print $col}' ../../DBMS/"$name"/"$Table".txt)
   done
   $data
-    validate "Enter the value the Primary key column (${colNames[1]})" 1
+    validate "Enter the value the Primary key column (${colNames[1]}) : " 1
     echo "After you entered the value of the primkry key, do you want keep inserting ? "
   for((i=2; i<=$colNum; i++))
   do
@@ -39,7 +39,7 @@ colNum=$(awk -F':' 'NR==1{print NF}' ../../DBMS/"$name"/"$Table".txt)
       esac
     done 
     if [[ $answer = "yes" ]];then
-      validate "Enter the value of column (${colNames[$i]})" $i
+      validate "Enter the value of column (${colNames[$i]}) : " $i
       unset answer
     elif [[  $answer = "no"  ]];then
       echo "going back to the main menu"
