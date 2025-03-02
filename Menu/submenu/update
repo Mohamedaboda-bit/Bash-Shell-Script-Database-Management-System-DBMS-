@@ -1,18 +1,21 @@
 #!/usr/bin/bash
+echo -e "\n"
+echo "Enter the name of the table you want to delete from:"
 
-
-clear
 ls -1 ../../DBMS/"$name"/
-echo ###################################################
+echo -e "\n"
+
 read -p "Enter table name: " table
-if [[ -f "../../DBMS/"$name"/"$table"" ]] then
+if [[ -f "../../DBMS/"$name"/"$table"" ]]; then
 	tablePath="../../DBMS/"$name"/"$table""
-	select choice in Update Exit
+while true
+do
+select choice in Update Exit
 	do
 	case $choice in
 	"Update")
-		echo ###################################################
-		sed -n '1p' $tablePath | column -t -s":"
+		echo -e "\n"
+        sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
 		read -p "Enter the field number used in condition: " conditionField
 		if  [[ ! "$conditionField" =~ ^[1-9][0-9]*$ ]] 
 		then
@@ -24,11 +27,12 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 		then
 			read -p "Enter the value used in condition: " conditionValue			
 		else
-			echo Field does not exit 
-			continue
+			echo Field does not exit going back to the update menu
+			break 
 		fi	
-		echo ###################################################
-		read -p "Enter the field number of the new value: " changingField
+		check=$(awk -F: -v conditionField="$conditionField"  'NR==1 {if (conditionField<=NF && conditionField>0) print "True"} ' "$tablePath")
+		sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
+		read -p "Enter the field number you want to update : " changingField
 		if  [[ ! "$changingField" =~ ^[1-9][0-9]*$ ]] 
 		then
 			echo Please enter a number
@@ -41,14 +45,14 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 			fieldType=$(awk -F: -v changingField="$changingField" 'NR==2 {print $changingField}' "$tablePath")
 			if [[ $fieldType == "Integer" && ! $value =~ ^[1-9][0-9]*$ ]]
 			then
-				echo Wrong entery
-				continue
+				echo Wrong entery going back to the update menu
+				break 
 			elif [[ $fieldType == "String" && ! $value =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]]			
 			then
-				echo Wrong entery
-				continue
+				echo Wrong entery going back to the update menu
+				break
 			else 
-			echo ###################################################
+			echo -e "\n"
 			echo Are you sure you want to update 
 			select option in yes no
 			do
@@ -57,32 +61,34 @@ if [[ -f "../../DBMS/"$name"/"$table"" ]] then
 				tmpfile="$(mktemp)"
 				awk -F: -v OFS=":" -v changingField="$changingField" -v value="$value" -v conditionField="$conditionField" -v conditionValue="$conditionValue" 'NR>=4 {if ($conditionField == conditionValue)  $changingField = value } { print } ' "$tablePath" > "$tmpfile" && mv "$tmpfile" "$tablePath"
 				echo "Record updated successfully"
-				break
+				break 2
 				;;
 			"no")
-				break
+				break 2
+				echo "going back the the update menu"
 				;;
-     			 *)
- 			       echo "invalid answer"
- 			       ;;
+     		*)
+ 		       echo "invalid answer select 1 or 2"
+ 		       ;;
 			esac
 			done		
 			
-			echo ###################################################
+			echo -e "\n"
 			fi
 		else
-			echo Field does not exist
-			continue
+			echo Field does not exit going back to the update menu
+			break
 		fi	
 		;;
 	"Exit")
-		break
+		break 2
 		;;	
 	*)
 		echo WRONG ENTERY
 	esac
 	done
-	clear
+done
+	
 	source ./submenu	
 	else
 		echo Table does not exist

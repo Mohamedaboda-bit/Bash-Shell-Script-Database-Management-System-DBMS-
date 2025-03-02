@@ -1,93 +1,105 @@
 #!/usr/bin/bash
 
-
-echo Enter the name of the table you want to delete from :
-echo ###################################################
+echo "Enter the name of the table you want to delete from:"
+		echo -e "\n"
 ls -1 ../../DBMS/"$name"/
-echo ###################################################
+		echo -e "\n"
 read -p "Enter table name: " table
-echo $table
-if [[ -f "../../DBMS/"$name"/"$table"" ]]; then
-	tablePath="../../DBMS/"$name"/"$table""	
-while true
-do
-	select choice in Delete_All Detele_Where Exit
-	do
-	case $choice in
-	"Delete_All")
-		echo ###################################################
-		echo Are you sure you want to delete all data
-		select option in yes no
-		do
-		case $option in 
-		"yes")
-			sed -i '4,$d' $tablePath 
-			echo Data deleted successfully... going back to the delete menu
-			break 2
-			;;
-		"no")
-			echo going back to the delete menu
-			break 2
-			;;
-     	*)
- 		    echo "invalid answer enter 1 or 2"
- 		    ;;
-		esac
-		done		
-		echo ###################################################
-		;;
-		
-		
-	"Detele_Where")
-		echo ###################################################
-		sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
-		read -p "Enter field number: " field
-		if  [[ ! "$field" =~ ^[1-9][0-9]*$  ]]; then
-			echo Please enter a number
-		fi	
-		check=$(awk -F: -v field="$field"  'NR==1 {if (field<=NF && field>0) print "True"} ' "$tablePath")
-		if [[ $check == "True" ]]; then
-			read -p "Enter a value: " value
-			echo ###################################################
-			echo Are you sure you want to delete 
-			select option in yes no
-			do
-			case $option in 
-			"yes")
-				before=$(wc -l < "$tablePath")			
-				awk -F: -v field="$field" -v value="$value" 'NR>=4 && $field == value { print NR "d"}' "$tablePath" | sed -i -f - "$tablePath"
-				after=$(wc -l < "$tablePath")
-				if [[ $before -gt $after ]]; then
-					echo Data deleted successfully
-				else
-					echo Data not found
-				fi	
-				break
-				;;
-			"no")
-				break
-				;;
-     		*)
- 			    echo "invalid answer"
- 			    ;;
-			esac
-			done				
-			echo ###################################################
-		else
-			echo Field does not exist
-		fi
-		;;
-	"Exit")
-		break 2
-		;;	
-	*)
-		echo "WRONG ENTERY Enter 1,2 or 3"
-	esac
-	done
-done	
-	# clear
-	source ./submenu
-else
-	echo Table dose not exist ... going back to the pervious menu
-fi
+echo "$table"
 
+if [[ -f "../../DBMS/$name/$table" ]]; then
+    tablePath="../../DBMS/$name/$table"
+    
+    while true; do
+        select choice in Delete_All Delete_Where Exit; do
+            case $choice in
+                "Delete_All")
+						echo -e "\n"
+                    echo "Are you sure you want to delete all data?"
+                    select option in yes no; do
+                        case $option in 
+                            "yes")
+                                sed -i '4,$d' "$tablePath"
+                                echo "Data deleted successfully... going back to the delete menu"
+                                break 2
+                                ;;
+                            "no")
+                                echo "Going back to the delete menu"
+                                break 2
+                                ;;
+                            *)
+                                echo "Invalid answer, enter 1 or 2"
+                                ;;
+                        esac
+                    done        
+							echo -e "\n"
+                    ;;
+                
+                "Delete_Where")
+						echo -e "\n"
+                    sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
+                    read -p "Enter field number: " field
+                    
+                    while true; do
+                        if [[ "$field" =~ ^[1-9][0-9]*$ ]]; then
+                            check=$(awk -F: -v field="$field" 'NR==1 {if (field<=NF && field>0) print "True"}' "$tablePath")
+                            
+                            if [[ $check == "True" ]]; then
+                                while true; do
+									read -p "Enter a value: " value
+									echo "Are you sure you want to delete?"
+                                    select option in yes no; do
+                                        case $option in 
+                                            "yes")
+                                                before=$(wc -l < "$tablePath")            
+                                                awk -F: -v field="$field" -v value="$value" 'NR>=4 && $field == value { print NR "d" }' "$tablePath" | sed -i -f - "$tablePath"
+                                                after=$(wc -l < "$tablePath")
+                                                
+                                                if [[ $before -gt $after ]]; then
+                                                    echo "Data deleted successfully going back"
+													break 4
+                                                else
+                                                    echo "No match enter data again"
+													break 
+                                                fi    
+                                                ;;
+                                            "no")
+                                                break 2
+                                                ;;
+                                            *)
+                                                echo "Invalid answer"
+                                                ;;
+                                        esac
+                                    done        
+                                done        
+									echo -e "\n"
+                            else
+                                echo "Field does not exist going back to the delete options"
+                            fi
+                            break 2               
+                        else 
+                            echo "You entered a non-integer value... please try again"
+                            sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
+                            unset field
+                            read -p "Enter field number: " field
+                        fi    
+                    done
+                    ;;
+                
+                "Exit")
+					echo "going back to the previous menu"
+                    break 2
+                    ;;    
+                
+                *)
+                    echo "WRONG ENTRY! Enter 1, 2, or 3"
+					break 
+                    ;;
+            esac
+        done
+    done    
+    
+    source ./submenu
+else
+    echo "Table does not exist ... going back to the previous menu"
+fi

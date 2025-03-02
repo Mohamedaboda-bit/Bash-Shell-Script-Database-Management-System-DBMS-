@@ -16,7 +16,7 @@ do
 				break
 				;;
 			"drop table")	
-				echo "mohamed will implemnt this"
+				source ./drop
 				break
 				;;
 			"insert")	

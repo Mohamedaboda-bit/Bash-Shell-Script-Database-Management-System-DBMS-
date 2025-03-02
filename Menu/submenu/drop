@@ -1,0 +1,12 @@
+#!/usr/bin/bash	
+# source <File Path>
+
+read -p "enter the table name : " table
+	if [[ -f "../../DBMS/$name/$table.txt" ]];then
+			rm -r  "../../DBMS/$name/$table.txt"
+            if [ $? -eq 0 ];then
+            echo "$table table droped successfully"
+            fi
+	else
+			echo "table dosen't exist"
+    fi

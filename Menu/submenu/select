@@ -1,61 +1,72 @@
 #!/usr/bin/bash
-
-clear
+echo "Enter the name of the table you want to delete from:"
 ls -1 ../../DBMS/"$name"/
-echo ###################################################
+echo -e "\n"
 read -p "Enter table name: " table
-if [[ -f "../../DBMS/"$name"/"$table"" ]] then
+if [[ -f "../../DBMS/"$name"/"$table"" ]]; then
 	tablePath="../../DBMS/"$name"/"$table""	
+while true 
+do
 	select choice in Select_All Selection Projection Exit
 	do
 	case $choice in
 	"Select_All")
-		echo ###################################################
+		echo -e "\n"
 		sed -n '1p' $tablePath | column -t -s":"
 		sed -n '4,$p' $tablePath | column -t -s":"
-		echo ###################################################
+		echo -e "\n"
+		break
 		;;
 	"Selection")
-		echo ###################################################
-		sed -n '1p' $tablePath | column -t -s":"
+		echo -e "\n"
+        sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
+
 		read -p "Enter field number: " field
-		if  [[ ! "$field" =~ ^[1-9][0-9]*$ ]] then
+		if  [[ ! "$field" =~ ^[1-9][0-9]*$ ]]; then
 			echo Please enter a number
 		fi
 		check=$(awk -F: -v field="$field"  'NR==1 {if (field<=NF && field>0) print "True"} ' "$tablePath")
-		if [[ $check == "True" ]] then
+		if [[ $check == "True" ]]; then
 			read -p "Enter a value: " value
-			echo ###################################################			
+				echo -e "------------------"
 			awk -F: -v field="$field" -v value="$value" 'NR==1 || (NR>=4 && $field == value) {print}' "$tablePath" | column -t -s":"
-			echo ###################################################
+				echo -e "------------------"
+				echo 'going back to the select menu'
+				break
 		else
-			echo Field does not exist
+			echo field number does not exist going back to the select menu
+			break
 		fi
 		;;
 	"Projection")
-		echo ###################################################
-		sed -n '1p' $tablePath | column -t -s":"
+		echo -e "\n"
+		sed -n '1p' "$tablePath" | column -t -s":" | awk '{for(i=1; i<=NF; i++) printf "%d.%s  ", i, $i; print ""}'
+
 		read -p "Enter field number: " field
-		if  [[ ! "$field" =~ ^[1-9][0-9]*$ ]] then
+		if  [[ ! "$field" =~ ^[1-9][0-9]*$ ]]; then
 			echo Please enter a number
 		fi
 		check=$(awk -F: -v field="$field"  'NR==1 {if (field<=NF && field>0) print "True"} ' "$tablePath")
-		if [[ $check == "True" ]] then
-			echo ###################################################	
+		if [[ $check == "True" ]]; then
+			echo -e "------------------"
 			awk -F: -v field="$field" 'NR==1 || NR>=4 { print $field }' "$tablePath" | column -t -s":"
-			echo ###################################################
+			echo -e "------------------"
+			break
 		else
-			echo Field does not exist
+			echo field number does not exist going back to the select menu
+			break
 		fi
 		;;
 	"Exit")
-		break
+		break 2
 		;;	
 	*)
 		echo WRONG ENTERY 
+		break
 	esac
 	done
-	clear
+done
+
 	source ./submenu
 else
 	echo Table does not exist
