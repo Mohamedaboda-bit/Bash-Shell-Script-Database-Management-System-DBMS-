@@ -39,6 +39,11 @@ select choice in Update Exit
 			echo Please enter a number
 			continue
 		fi
+		if  [[ "$changingField" == 1 ]] 
+		then
+			echo Can not update the primary key value
+			break
+		fi
 		check=$(awk -F: -v changingField="$changingField" 'NR==1 {if (changingField<=NF && changingField>0) print "True"}' "$tablePath")
 		if [[ $check == "True" ]]		 
 		then			
