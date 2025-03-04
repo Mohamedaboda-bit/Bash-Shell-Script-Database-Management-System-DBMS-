@@ -2,7 +2,7 @@
 # source <File Path>
 source ./createHelperFunctions
 
-echo -e "please enter the of name Table and sure make that the name : \n 1).starts with a char \n 2).dose not contain any with spaces or spical special character\n"
+echo -e "please enter the of name Table and sure make that the name : \n 1)starts with a char \n 2)does not contain any with spaces or spical special character\n"
 read -p "table name :" tname
 $firstline;
 if [[ $tname =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]];then
@@ -52,7 +52,7 @@ if [[ $tname =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]];then
             echo "$tname table already exists"
         fi
     else    
-        echo "the name you enterned dosen't match the pattern try agian : "
+        echo "the name you enterned doesn't match the pattern try agian : "
         source ./create
 fi
 
