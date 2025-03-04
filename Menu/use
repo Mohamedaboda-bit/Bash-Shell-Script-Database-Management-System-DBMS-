@@ -11,11 +11,11 @@ if [[ $name =~ ^[a-zA-Z][a-zA-Z0-9]*$ ]]
                     cd submenu
                     source ./submenu                        
 					else
-						echo "MAIN MENU/USE > this database dosen't exist...going back to the main menu"
+						echo "MAIN MENU/USE > this database doesn't exist...going back to the main menu"
 					fi 
 
 			else
-				echo "the name you enterned dosen't match the pattern try agian : "
+				echo "the name you enterned doesn't match the pattern try agian : "
 				source ./use
 fi	
                 
