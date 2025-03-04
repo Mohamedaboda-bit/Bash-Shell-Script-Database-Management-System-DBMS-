@@ -5,6 +5,14 @@ validate(){
    while true
     do
     read -p "$1" firstcol
+    result=$(awk -F: -v var="$firstcol" '
+    BEGIN {found=0}  $1 == var {found=1; exit} END {print found ? "true" : "false"}' "../../DBMS/"$name"/"$Table".txt" )
+    if [[ $2 == 1 ]];then
+     if [[ $result == "true" ]];then
+      echo "this value already exists try again"
+      unset firstcol
+     fi
+    fi 
     if [[ ${colTypes[$2]} =  "String" ]];then
       if [[ $firstcol =~ ^[a-zA-Z][a-zA-Z0-9]*$  ]];then 
         if [[ ! $2 = $colNum ]];then
@@ -23,10 +31,10 @@ validate(){
           fi
            data+="$firstcol"
            break
-      else
+      fi
+    else
         echo "Wrong datatype enter an Integer please"
         unset firstcol
-      fi
     fi
     done
 }
