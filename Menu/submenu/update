@@ -2,7 +2,7 @@
 # source <File Path>
 
 echo -e "\n"
-echo "Enter the name of the table you want to delete from:"
+echo "Enter the name of the table you want to update:"
 ls -1 ../../DBMS/"$name"/
 echo -e "\n"
 
