@@ -51,7 +51,7 @@ colNum=$(awk -F':' 'NR==1{print NF}' ../../DBMS/"$name"/"$Table".txt)
   unset data
   echo "insert was successful"
 else
-    echo "this table dose't exist create table first"
+    echo "this table doesn't exist create table first"
 fi
 
 
