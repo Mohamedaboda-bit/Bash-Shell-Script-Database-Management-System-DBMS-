@@ -38,12 +38,7 @@ select choice in Update Exit
 		then
 			echo Please enter a number
 			continue
-		fi
-		if  [[ "$changingField" == 1 ]] 
-		then
-			echo Can not update the primary key value
-			break
-		fi
+		fi		
 		check=$(awk -F: -v changingField="$changingField" 'NR==1 {if (changingField<=NF && changingField>0) print "True"}' "$tablePath")
 		if [[ $check == "True" ]]		 
 		then			
@@ -57,7 +52,19 @@ select choice in Update Exit
 			then
 				echo Wrong entery going back to the update menu
 				break
-			else 
+			else 			
+			check=$(awk -F: -v OFS=":" -v conditionField="$conditionField" -v conditionValue="$conditionValue" 'NR>=4 {if ($conditionField == conditionValue) print "True"} ' "$tablePath")
+			if [[ $check != "True" ]]		 
+			then
+				echo Condition does not match
+				break
+			fi
+			check=$(awk -F: -v value="$value" 'NR>=4 {if ($1 == value) print "True"} ' "$tablePath")
+			if [[ $check == "True" ]]		 
+			then
+				echo PK already exists
+				break
+			fi
 			echo Are you sure you want to update 
 			select option in yes no
 			do
