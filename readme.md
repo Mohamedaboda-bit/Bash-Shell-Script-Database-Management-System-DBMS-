@@ -1,12 +1,20 @@
+<<<<<<< HEAD
 # Database Management System (DBMS) - Bash Script Project  
+=======
+# Database Management System (DBMS) - Bash Script with GUI  
+>>>>>>> 111f187 (added GUI)
 **Team Members**: Mohamed Abdel Aal, Nada Salah  
 
 ---
 
 ## Overview  
+<<<<<<< HEAD
 This project is a command-line Database Management System (DBMS) implemented in Bash. It allows users to manage databases and tables with operations like creation, deletion, insertion, updates, and queries. The system operates at two levels:  
 1. **Database Level**: Create, list, use, or drop entire databases.  
 2. **Table Level**: Within a database, manage tables and perform CRUD operations.  
+=======
+This project is a **Graphical Database Management System (DBMS)** that provides an interactive way to manage databases and tables. The system allows users to **create, delete, update, and query** databases and tables using a Bash backend with a Python GUI.  
+>>>>>>> 111f187 (added GUI)
 
 ---
 
@@ -28,6 +36,7 @@ This project is a command-line Database Management System (DBMS) implemented in 
 
 ---
 
+<<<<<<< HEAD
 ## File Structure  
 ### **Database-Level Scripts**  
 - **mainMenu.txt**: Main menu for database operations (create, use, list, drop).  
@@ -57,3 +66,24 @@ This project is a command-line Database Management System (DBMS) implemented in 
 Run the entry point script:  
 ```bash
 ./entryPoint.txt
+=======
+## Setup Instructions  
+
+### **1️⃣ Install Dependencies**  
+Before running the project, you need to set up a **virtual environment** and install the required Python modules.  
+
+Run the following commands:  
+
+```bash
+# Create and activate a virtual environment
+python -m venv .venv
+
+# Activate virtual environment (MacOS/Linux)
+source .venv/bin/activate  
+
+# Activate virtual environment (Windows)
+.venv\Scripts\activate  
+
+# Install required dependencies
+pip install -r requirements.txt
+>>>>>>> 111f187 (added GUI)
